@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using System.Collections;
 using System.Data.Entity;
 using Microsoft.EntityFrameworkCore;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace WebPhotoArchive.Controllers
 {
@@ -47,25 +48,20 @@ namespace WebPhotoArchive.Controllers
             ViewBag.Post = post;
             using (WebArchiveContext dbc = new WebArchiveContext())
             {
-                int i = 0; // мой Ид(100%)
-                int? i_too = 0; // ид который равне id страницы на которой нахожусь
+                int i = 0; // мой Ид
+                var checkFollow = db.Follows.Where(f => f.FollowerId == i && f.FollowingId == id).Select(f => f);
                 var deleteOrderDetails = from c in dbc.Users where c.Login == User.Identity.Name select c.Id;
                 foreach (var t in deleteOrderDetails)
                 {
                     i = t;
                 }
-                var checkFollow = from c in dbc.Follows where c.FollowingId == id select c.FollowingId;
-                foreach (var t in checkFollow)
-                {
-                    i_too = t;
-                }
                 if (id == i)
                 {
-                    //
+                    //если на своей стр
                 }
                 else
                 {
-                    if (i_too == id)
+                    if (checkFollow.Any())
                     {
                         ViewBag.btnName = "Отписаться";
                     }
@@ -99,39 +95,32 @@ namespace WebPhotoArchive.Controllers
 
         public ActionResult Follow()
         {
+            int i = 0;
             int id = int.Parse(Request.UrlReferrer.Segments[3]); // id на кого подписываемся
-            int i = 0; int? i_too = 0;
             var deleteOrderDetails = from c in db.Users where c.Login == User.Identity.Name select c.Id;
             foreach (var t in deleteOrderDetails)
             {
                 i = t; // мой id
             }
-            var checkFollow = from c in db.Follows where c.FollowingId == id select c.FollowingId;
-            var deleteFollow = from c in db.Follows where c.FollowingId == id select c.FollowId;
-            foreach (var t in checkFollow)
-            {
-                i_too = t;
-            }
+            var checkFollow = db.Follows.Where(f=>f.FollowerId == i && f.FollowingId == id).Select(f=>f);
             if (id == i)
             {
                 //none
             }
             else
             {
-                if (i_too == id)
+                if (checkFollow.Any())
                 {
                     using (WebArchiveContext dbc = new WebArchiveContext())
                     {
-                        //отписка
-                        foreach (var t in deleteFollow)
+                        foreach (var check in checkFollow)
                         {
-                            Follow f = dbc.Follows.Find(t);
-                            dbc.Follows.Remove(f);
+                            dbc.Follows.Remove(check);
                         }
                         dbc.SaveChanges();
                     }
                 }
-                else
+                else 
                 {
                     using (WebArchiveContext dbc = new WebArchiveContext())
                     {
