@@ -1,0 +1,139 @@
+﻿@using WebPhotoArchive.Models
+@model IEnumerable<User>
+
+@{
+    foreach (var mode in ViewBag.User)
+    {
+        ViewBag.Title = mode.Login;
+    }
+    string Name = null, btnName = null;
+    btnName = ViewBag.btnName;
+}
+
+
+<form method="get">
+    <div class="row">
+        <br />
+        @foreach (var s in ViewBag.User)
+        {
+            { Name = s.Login; }
+            <div class="col-md-2"></div>
+            <div class="col-md-3">
+                @if (Name == User.Identity.Name)
+                {
+                    if (s.Photo == null)
+                    {
+                        <img src="~/Content/photo.jpg" data-toggle="modal" data-target="#Modal" />
+                    }
+                    else
+                    {
+                        @Html.Raw("<img style='width:150px; height:150px;' data-toggle='modal' data-target='#Modal' src=\"data:image/jpeg;base64,"
+                                           + Convert.ToBase64String(s.Photo) + "\" />")
+                    }
+                }
+                else
+                {
+                    if (s.Photo == null)
+                    {
+                        <img src="~/Content/photo.jpg" />
+                    }
+                    else
+                    {
+                        @Html.Raw("<img style='width:150px; height:150px;' src=\"data:image/jpeg;base64,"
+                                           + Convert.ToBase64String(s.Photo) + "\" />")
+                    }
+                }
+            </div>
+            <div class="col-md-3">
+                <h2>@s.Login</h2>
+                <p><strong>Posts: </strong>@s.Postnum&ensp;&ensp;&ensp;<strong>Followers: </strong>@s.Followers&ensp;&ensp;&ensp;<strong>Following: </strong>@s.Following</p> @*всё не работает*@
+                <h5><strong>@s.FullName</strong></h5>
+            </div>
+            <div class="col-md-1">
+                @if (Name == User.Identity.Name)
+                {
+                    <a href="#" type="button" class="btn btn-default navbar-btn" data-toggle="modal" data-target="#Modal2"><strong>Пост+</strong></a>
+                }
+                else
+                {
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav btn-group input-group-btn">
+                            <li>@Html.ActionLink(btnName, "Follow", "Home", new { @class = "btn btn-default" })</li>
+                            <li>@Html.ActionLink("Написать", "Message", "Home", new { @class = "btn btn-default" })</li>
+                        </ul>
+                    </div>
+                }
+            </div>
+        }
+        <div class="col-md-2"></div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-7">
+            @foreach (var s in ViewBag.Post)
+            {
+                <a  href="@Url.RouteUrl(new {controller = "Home", action = "Comment", id_post = s.Id })">
+                    @Html.Raw("<img style='width:200px; height:200px;' src=\"data:image/jpeg;base64," + Convert.ToBase64String(s.Photo) + "\" />");
+                </a>
+            }
+        </div>
+    </div>
+</form>
+@using (Html.BeginForm("EditAvatar", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div id="Modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Изменение аватара</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="btn-group-justified" role="group">
+                        <div class="btn-group" role="group">
+                            <label class="btn btn-default">Изменить фото<input type="file" name="uploadImage" hidden></label>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <input type="submit" value="Загрузить" class="btn btn-success" />
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" data-dismiss="modal" class="btn btn-default">Закрыть</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+    @using (Html.BeginForm("Post", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div id="Modal2" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">Добавление фотографии</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div class="btn-group-justified" role="group">
+                            <div class="btn-group" role="group">
+                                <label class="btn btn-default">Выбрать фото<input type="file" name="uploadImage" hidden></label>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <input type="submit" value="Загрузить" class="btn btn-success" />
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" data-dismiss="modal" class="btn btn-danger">Закрыть</button>
+                            </div>
+                        </div>
+                        <input name="description" type="text" class="form-control" placeholder="Описание" aria-describedby="basic-addon1">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+    <style type="text/css">
+        [hidden] {
+            display: none !important;
+        }
+    </style>

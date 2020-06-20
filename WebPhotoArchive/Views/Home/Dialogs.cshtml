@@ -1,0 +1,18 @@
+﻿@model IEnumerable<WebPhotoArchive.Models.Dialog>
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-xs-12 col-md-6">
+        <div class="btn-group-vertical" role="group" aria-label="...">
+            @foreach (var item in Model)
+            {
+                <a href="@Url.RouteUrl(new {controller = "Home", action = "Chat", FormMethod.Post, id = item.Id })" type="button" class="btn btn-default navbar-btn">
+                    @Html.DisplayFor(modelItem => item.FromName)<br />
+                    @Html.DisplayFor(modelItem => item.ToName)
+                    @Html.DisplayFor(modelItem => item.LastMessage)
+                </a>
+            }
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>

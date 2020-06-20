@@ -1,0 +1,23 @@
+﻿@model IEnumerable<WebPhotoArchive.Models.User>
+
+<div>
+    <ul class="list-group">
+        @foreach (var item in Model)
+        {
+            <li class="list-group-item" type="button">
+                <a href="@Url.RouteUrl(new {controller = "Home", action = "UserProfile", id = item.Id })" style="text-decoration: none; color: #000000;">
+                    <strong>
+                        @Html.DisplayFor(modelItem => item.Login)
+                    </strong><br />
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+@*<style>
+    li:hover {
+        background-color:gray;
+    }
+</style>*@
+

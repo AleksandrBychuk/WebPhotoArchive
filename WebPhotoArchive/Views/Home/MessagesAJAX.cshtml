@@ -1,0 +1,10 @@
+﻿@model IEnumerable<WebPhotoArchive.Models.Message>
+
+<div id="chatAjax">
+    @foreach (var item in Model)
+    {
+        <strong>@Html.DisplayFor(modelItem => item.Name)</strong>
+        @Html.DisplayFor(modelItem => item.Text)
+        <hr />
+    }
+</div>
