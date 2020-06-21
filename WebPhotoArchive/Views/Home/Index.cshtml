@@ -30,9 +30,28 @@ else
                 <div class="btn-group" id="Div1">
                     <p>
                         <a class="btn-group" href="@Url.RouteUrl(new {controller = "Home", action = "LikeSystem", id = n.Id })">
-                            <img style='width:30px; height:30px;' src="~/Content/like_1.png" />
+                            @{
+                                bool likeFound = false;
+
+                                foreach (var t in ViewBag.LikePost)
+                                {
+                                    if (n.Id == t.LikingId)
+                                    {
+                                        likeFound = true;
+
+                                        <img style='width:30px; height:30px;' src="~/Content/like_2.png" />
+
+                                        break;
+                                    }
+                                }
+
+                                if (!likeFound)
+                                {
+                                    <img style='width:30px; height:30px;' src="~/Content/like_1.png" />
+                                }
+                            }
                         </a>
-                        <a class = "btn-group" href="@Url.RouteUrl(new {controller = "Home", action = "Comment", id_post = n.Id })">
+                        <a class="btn-group" href="@Url.RouteUrl(new {controller = "Home", action = "Comment", id_post = n.Id })">
                             <img style='width:30px; height:30px;' src="~/Content/comments.png" />
                         </a>
                     </p>

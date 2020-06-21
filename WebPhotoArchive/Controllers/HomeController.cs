@@ -28,13 +28,19 @@ namespace WebPhotoArchive.Controllers
                 i = t;
             }
             #endregion
+            using (WebArchiveContext dbc = new WebArchiveContext())
+            {
+                var list_like = dbc.Likes.Where(l => l.LikerId == i).ToList();
+                ViewBag.LikePost = list_like;
+            }
             var news_following_id = db.Follows.Where(u => u.FollowerId == i).Select(u => u.FollowingId);
             IQueryable<Post> list_news = null;
             list_news = db.Posts.Where(u => news_following_id.Contains(u.UserDoId)).OrderByDescending(p => p.Time);
-            if (list_news.Any()) 
+            if (list_news.Any())
             {
                 ViewBag.News = list_news;
-            } else ViewBag.News = null;
+            }
+            else ViewBag.News = null;
             return View();
         }
 
