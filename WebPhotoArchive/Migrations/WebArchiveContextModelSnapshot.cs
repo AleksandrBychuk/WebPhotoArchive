@@ -62,9 +62,6 @@ namespace WebPhotoArchive.Migrations
                     b.Property<string>("LastMessage")
                         .HasColumnType("varchar(250)");
 
-                    b.Property<DateTime>("LastMessageTime")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<DateTime>("Time")
                         .HasColumnType("timestamp without time zone");
 

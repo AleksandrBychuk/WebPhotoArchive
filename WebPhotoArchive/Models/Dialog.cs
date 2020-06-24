@@ -21,7 +21,6 @@ namespace WebPhotoArchive.Models
         public string ToName { get; set; }
         [Column(TypeName = ("varchar(250)"))]
         public string LastMessage { get; set; }
-        public DateTime LastMessageTime { get; set; }
         public DateTime Time { get; set; }
     }
 }
