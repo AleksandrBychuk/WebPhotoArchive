@@ -13,8 +13,8 @@
                 <div class="thumbnail">
                     @{ Name = n.UserDoName; id_link = n.UserDoId;}
                     <input type="hidden" name="id_post" value="@n.Id" />
-                    <div class="collapse navbar-collapse">
-                        <h4>@Html.ActionLink(Name, "/UserProfile/" + id_link, "Home", new { @class = "nav navbar-nav", @style = "text-decoration: none; color: #000000;" })</h4>
+                    <div class="navbar-collapse">
+                        <h4>@Html.ActionLink(Name, "/UserProfile/" + id_link, "Home", new { @class = "nav", @style = "text-decoration: none; color: #000000;" })</h4>
                     </div>
                     <hr />
                     @Html.Raw("<img src=\"data:image/jpeg;base64," + Convert.ToBase64String(n.Photo) + "\" />") @*для уменьшения добавить в img style='width:300px; height:350px;'*@
