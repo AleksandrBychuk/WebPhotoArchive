@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebPhotoArchive.Models;
@@ -9,9 +10,10 @@ using WebPhotoArchive.Models;
 namespace WebPhotoArchive.Migrations
 {
     [DbContext(typeof(WebArchiveContext))]
-    partial class WebArchiveContextModelSnapshot : ModelSnapshot
+    [Migration("20200624235221_dialog_correct")]
+    partial class dialog_correct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

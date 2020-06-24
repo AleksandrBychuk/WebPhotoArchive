@@ -8,6 +8,8 @@
     }
     string Name = null, btnName = null;
     btnName = ViewBag.btnName;
+    string FName = null;
+    string FFName = null;
 }
 
 
@@ -23,11 +25,11 @@
                 {
                     if (s.Photo == null)
                     {
-                        <img src="~/Content/photo.jpg" data-toggle="modal" data-target="#Modal" />
+                        <img src="~/Content/photo.jpg" data-toggle="modal" data-target="#Modal" style="cursor:pointer;" />
                     }
                     else
                     {
-                        @Html.Raw("<img style='width:150px; height:150px;' data-toggle='modal' data-target='#Modal' src=\"data:image/jpeg;base64,"
+                        @Html.Raw("<img style='width:150px; height:150px; cursor:pointer;' data-toggle='modal' data-target='#Modal' src=\"data:image/jpeg;base64,"
                                            + Convert.ToBase64String(s.Photo) + "\" />")
                     }
                 }
@@ -46,7 +48,7 @@
             </div>
             <div class="col-md-3">
                 <h2>@s.Login</h2>
-                <p><strong>Posts: </strong>@s.Postnum&ensp;&ensp;&ensp;<strong>Followers: </strong>@s.Followers&ensp;&ensp;&ensp;<strong>Following: </strong>@s.Following</p> @*всё не работает*@
+                <p><strong>Posts: </strong>@s.Postnum&ensp;&ensp;&ensp;<strong style="cursor:pointer;" data-toggle="modal" data-target="#Modal4">Followers: </strong>@s.Followers&ensp;&ensp;&ensp;<strong style="cursor:pointer;" data-toggle="modal" data-target="#Modal3">Following: </strong>@s.Following</p> @*всё не работает*@
                 <h5><strong>@s.FullName</strong></h5>
             </div>
             <div class="col-md-1">
@@ -132,6 +134,44 @@
             </div>
         </div>
     }
+<div id="Modal3" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Подписки</h2>
+            </div>
+            <div class="modal-body">
+                <div class="list-group">
+                    @foreach (var t in ViewBag.Following)
+                    {
+                        { FName = t.Login; FFName = t.FullName; }
+                        @Html.ActionLink(FName+' '+'('+FFName+')', "UserProfile", new { id = t.Id }, new { @type = "button", @class = "list-group-item" })
+            }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div id="Modal4" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Подписчики</h2>
+            </div>
+            <div class="modal-body">
+                <div class="list-group">
+                    @foreach (var t in ViewBag.Followers)
+                    {
+                        { FName = t.Login; FFName = t.FullName; }
+                        @Html.ActionLink(FName + ' ' + '(' + FFName + ')', "UserProfile", new { id = t.Id }, new { @type = "button", @class = "list-group-item" })
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
     <style type="text/css">
         [hidden] {
             display: none !important;
