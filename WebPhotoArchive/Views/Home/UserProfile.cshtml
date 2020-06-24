@@ -73,7 +73,7 @@
         <div class="col-md-7">
             @foreach (var s in ViewBag.Post)
             {
-                <a  href="@Url.RouteUrl(new {controller = "Home", action = "Comment", id_post = s.Id })">
+                <a  href="@Url.RouteUrl(new {controller = "Home", action = "Comment", id = s.Id })">
                     @Html.Raw("<img style='width:200px; height:200px;' src=\"data:image/jpeg;base64," + Convert.ToBase64String(s.Photo) + "\" />");
                 </a>
             }

@@ -266,9 +266,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\20200614135530_MigrationProject.cs" />
-    <Compile Include="Migrations\20200614135530_MigrationProject.designer.cs">
-      <DependentUpon>20200614135530_MigrationProject.cs</DependentUpon>
+    <Compile Include="Migrations\20200623212838_FixDB.cs" />
+    <Compile Include="Migrations\20200623212838_FixDB.designer.cs">
+      <DependentUpon>20200623212838_FixDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200624001404_littlecorrect.cs" />
+    <Compile Include="Migrations\20200624001404_littlecorrect.designer.cs">
+      <DependentUpon>20200624001404_littlecorrect.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\WebArchiveContextModelSnapshot.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -340,11 +344,12 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Home\UserProfile.cshtml" />
-    <Content Include="Views\Home\Comment.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\Home\Dialogs.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
     <Content Include="Views\Home\MessagesAJAX.cshtml" />
+    <Content Include="Views\Home\Comment.cshtml" />
+    <Content Include="Views\Home\CommentAJAX.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebPhotoArchive.Migrations
 {
-    public partial class MigrationProject : Migration
+    public partial class FixDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

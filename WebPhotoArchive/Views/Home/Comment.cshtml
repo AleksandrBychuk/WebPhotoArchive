@@ -1,59 +1,72 @@
-﻿@model WebPhotoArchive.Models.Comment
+﻿@model IEnumerable<WebPhotoArchive.Models.Comment>
 
 @{
     ViewBag.Title = "Comment";
-    string Name = null;
-    int id_link = 0;
+    string Name = null; int id_link = 0;
 }
-
-@foreach (var n in ViewBag.Post)
-{
     <div class="row">
-        <br />
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
-            <div class="thumbnail">
-                @{ Name = n.UserDoName; id_link = n.UserDoId;}
-                <input type="hidden" name="id_post" value="@n.Id" />
-                <div class="collapse navbar-collapse">
-                    <h4>@Html.ActionLink(Name, "/UserProfile/" + id_link, "Home", new { @class = "nav navbar-nav", @style = "text-decoration: none; color: #000000;" })</h4>
+        @foreach (var n in ViewBag.Post)
+        {
+            <br />
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="thumbnail">
+                    @{ Name = n.UserDoName; id_link = n.UserDoId;}
+                    <input type="hidden" name="id_post" value="@n.Id" />
+                    <div class="collapse navbar-collapse">
+                        <h4>@Html.ActionLink(Name, "/UserProfile/" + id_link, "Home", new { @class = "nav navbar-nav", @style = "text-decoration: none; color: #000000;" })</h4>
+                    </div>
+                    <hr />
+                    @Html.Raw("<img src=\"data:image/jpeg;base64," + Convert.ToBase64String(n.Photo) + "\" />") @*для уменьшения добавить в img style='width:300px; height:350px;'*@
+                    <p><strong>@Name:</strong><i>@n.Description</i></p>
                 </div>
-                <hr />
-                @Html.Raw("<img src=\"data:image/jpeg;base64," + Convert.ToBase64String(n.Photo) + "\" />") @*для уменьшения добавить в img style='width:300px; height:350px;'*@
-                <p><strong>@Name:</strong><i>@n.Description</i></p>
             </div>
-        </div>
-        <br />
-        <div class="col-md-3"></div>
+            <br />
+            <div class="col-md-3"></div>
+        }
     </div>
-}
 <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
-        <div id="results">
-            @foreach (var t in ViewBag.Comments)
+        <h4>Комментарии:</h4>
+        <div id="resultcomments">
+            @foreach (var item in Model)
             {
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <h3>@t.NameComment</h3>
-                        <p>@t.Text</p>
-                    </li>
-                </ul>
-            }
-
-        </div>
-        @*@using (Ajax.BeginForm("Comment", new AjaxOptions { UpdateTargetId="results", HttpMethod="Post"}))*@
-        @using (Html.BeginForm())
-        {
-            <fieldset>
-                <p>Комментарий</p>
-                <br />
-                <p>@Html.EditorFor(model => model.Text)</p>
                 <p>
-                    <input type="submit" value="Комментировать" />
+                    <strong>@Html.ActionLink(item.NameComment, "UserProfile", "Home", new { Id = item.IdComment }, new { @style = "text-decoration: none; color: black;" })</strong>:
+                    <span style="word-wrap:break-word;">@Html.DisplayFor(modelItem => item.Text)</span>
                 </p>
-            </fieldset>
+            <hr />
+            }
+        </div>
+
+        @using (Ajax.BeginForm("CommentAJAX", "Home", FormMethod.Post, new AjaxOptions { UpdateTargetId = "resultcomments", HttpMethod = "Post" }))
+        {
+            <div class="input-group">
+                <span class="input-group-btn" style="height:40px">
+                    <textarea style="overflow-wrap:break-word; height:inherit;" id="inputtext2" type="text" class="form-control" placeholder="Комментарий..." name="Text" autocomplete="off"></textarea>
+                    <button id="buttonsubmit" class="btn btn-default" type="submit" style="height:inherit;">Отправить</button>
+                </span>
+            </div>
         }
     </div>
     <div class="col-md-3"></div>
 </div>
+<style>
+    #resultcomments {
+        border: none #C0C0C0;
+        overflow-y: scroll;
+        width: 100%;
+        min-height: 100px;
+        max-height: 415px;
+    }
+</style>
+<script type="text/javascript">
+    var chat = document.getElementById("resultcomments");
+    var area = document.getElementById("inputtext2");
+    chat.scrollTop = chat.scrollHeight;
+    
+    document.getElementById("buttonsubmit").onclick = function (e) {
+        setTimeout(() => document.getElementById("inputtext").value = "", 1);
+    }
+</script>

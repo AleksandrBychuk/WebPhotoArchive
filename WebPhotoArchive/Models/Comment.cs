@@ -17,5 +17,6 @@ namespace WebPhotoArchive.Models
         public int? PostId { get; set; }
         [Column(TypeName = ("varchar(250)"))]
         public string NameComment { get; set; }
+        public int IdComment { get; set; }
     }
 }

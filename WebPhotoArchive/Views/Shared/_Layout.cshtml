@@ -23,23 +23,23 @@
             <div class="navbar-collapse collapse">
                 @if (User.Identity.IsAuthenticated)
                 {
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        @using (Ajax.BeginForm("Search", "Home", FormMethod.Post, new AjaxOptions { UpdateTargetId = "resultsearch", HttpMethod = "Post" }, new { @class = "navbar-form navbar-left" }))
-                        {
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search" name="textSearch">
-                                <span class="input-group-btn">
-                                    <input class="btn btn-default" type="submit" value="Search" />
-                                </span>
-                            </div>
-                        }
-                        <div id="resultsearch"></div>
-                    </li>
-                    <li>@Html.ActionLink("Диалоги", "Dialogs", "Home", null, null)</li>
-                    <li>@Html.ActionLink(User.Identity.Name, "UserGetId", "Home", null, null)</li>
-                    <li>@Html.ActionLink("Выйти", "LogOff", "Account", null, null)</li>
-                </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            @using (Ajax.BeginForm("Search", "Home", FormMethod.Post, new AjaxOptions { UpdateTargetId = "resultsearch", HttpMethod = "Post" }, new { @class = "navbar-form navbar-left" }))
+                            {
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search" name="textSearch">
+                                    <span class="input-group-btn">
+                                        <input class="btn btn-default" type="submit" value="Search" />
+                                    </span>
+                                </div>
+                            }
+                            <div id="resultsearch"></div>
+                        </li>
+                        <li>@Html.ActionLink("Диалоги", "Dialogs", "Home", null, null)</li>
+                        <li>@Html.ActionLink(User.Identity.Name, "UserGetId", "Home", null, null)</li>
+                        <li>@Html.ActionLink("Выйти", "LogOff", "Account", null, null)</li>
+                    </ul>
                 }
             </div>
         </div>

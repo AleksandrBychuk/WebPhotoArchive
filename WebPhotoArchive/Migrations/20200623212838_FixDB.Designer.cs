@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebPhotoArchive.Models;
@@ -9,9 +10,10 @@ using WebPhotoArchive.Models;
 namespace WebPhotoArchive.Migrations
 {
     [DbContext(typeof(WebArchiveContext))]
-    partial class WebArchiveContextModelSnapshot : ModelSnapshot
+    [Migration("20200623212838_FixDB")]
+    partial class FixDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,9 +27,6 @@ namespace WebPhotoArchive.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("IdComment")
-                        .HasColumnType("integer");
 
                     b.Property<string>("NameComment")
                         .HasColumnType("varchar(250)");

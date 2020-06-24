@@ -108,7 +108,7 @@ namespace WebPhotoArchive.Controllers
             {
                 i = t; // мой id
             }
-            var checkFollow = db.Follows.Where(f=>f.FollowerId == i && f.FollowingId == id).Select(f=>f);
+            var checkFollow = db.Follows.Where(f => f.FollowerId == i && f.FollowingId == id).Select(f => f);
             if (id == i)
             {
                 //none
@@ -126,7 +126,7 @@ namespace WebPhotoArchive.Controllers
                         dbc.SaveChanges();
                     }
                 }
-                else 
+                else
                 {
                     using (WebArchiveContext dbc = new WebArchiveContext())
                     {
@@ -231,7 +231,7 @@ namespace WebPhotoArchive.Controllers
                 db.SaveChanges();
                 return RedirectToAction("UserProfile/" + i);
             }
-            else 
+            else
             {
                 var photo = db.Users.Where(u => u.Id == i).FirstOrDefault();
                 photo.Photo = null;
@@ -241,31 +241,7 @@ namespace WebPhotoArchive.Controllers
         }
 
         [HttpPost]
-        public ActionResult Comment(Comment comment, int? id_post)
-        {
-            comment.Time = DateTime.Now;
-            comment.PostId = id_post;
-            comment.NameComment = User.Identity.Name;
-            db.Comments.Add(comment);
-            db.SaveChanges();
-            return RedirectToAction("Comment", "Home", new { id_post });
-        }
-
-        [HttpGet]
-        public ActionResult Comment(int id_post)
-        {
-            using (WebArchiveContext dbc = new WebArchiveContext())
-            {
-                var post = dbc.Posts.Where(p => p.Id == id_post).ToList();
-                var comments = dbc.Comments.Where(p => p.PostId == id_post).ToList();
-                ViewBag.Post = post;
-                ViewBag.Comments = comments;
-            }
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Search(string textSearch) 
+        public ActionResult Search(string textSearch)
         {
             string text1 = textSearch;
             var searchresult = db.Users.Where(u => u.Login == text1);
@@ -296,7 +272,7 @@ namespace WebPhotoArchive.Controllers
                 var messages = db.Messages.Where(m => m.DialogId == id).ToList();
                 return View(messages);
             }
-            else 
+            else
             {
                 return HttpNotFound();
             }
@@ -333,9 +309,9 @@ namespace WebPhotoArchive.Controllers
                 name = t;
             }
             Dialog dialog = null;
-            using(WebArchiveContext dbc = new WebArchiveContext()) 
+            using (WebArchiveContext dbc = new WebArchiveContext())
             {
-                dialog = dbc.Dialogs.FirstOrDefault(d=>((d.FromId == i && d.ToId == idTo) || (d.FromId == idTo && d.ToId == i)));
+                dialog = dbc.Dialogs.FirstOrDefault(d => ((d.FromId == i && d.ToId == idTo) || (d.FromId == idTo && d.ToId == i)));
             }
             if (dialog == null)
             {
@@ -350,14 +326,46 @@ namespace WebPhotoArchive.Controllers
                     return RedirectToAction("Chat/" + dialog_id);
                 }
             }
-            else 
+            else
             {
-                var idd = db.Dialogs.Where(d => ((d.FromId == i && d.ToId == idTo) || (d.FromId == idTo && d.ToId == i))).Select(d=>d.Id);
+                var idd = db.Dialogs.Where(d => ((d.FromId == i && d.ToId == idTo) || (d.FromId == idTo && d.ToId == i))).Select(d => d.Id);
                 int dialog_id = 0;
                 foreach (var idd_d in idd)
                     dialog_id = idd_d;
-                return RedirectToAction("Chat/"+dialog_id);
+                return RedirectToAction("Chat/" + dialog_id);
             }
+        }
+
+        [HttpGet]
+        public ActionResult Comment(int id) 
+        {
+           
+            var post = db.Posts.Where(p => p.Id == id).Select(p=>p);
+            ViewBag.Post = post;
+            var comments = db.Comments.Where(c=>c.PostId == id).ToList();
+            return View(comments);
+        }
+
+        [HttpPost]
+        public ActionResult CommentAJAX(Comment comment) 
+        {
+            #region My Id, variable 'i' for get it
+            int i = 0;
+            var id = from c in db.Users where c.Login == User.Identity.Name select c.Id;
+            foreach (var t in id)
+            {
+                i = t;
+            }
+            #endregion
+            int postId = int.Parse(Request.UrlReferrer.Segments[3]);
+            comment.NameComment = User.Identity.Name;
+            comment.PostId = postId;
+            comment.Time = DateTime.Now;
+            comment.IdComment = i;
+            db.Add(comment);
+            db.SaveChanges();
+            var comments = db.Comments.Where(c => c.PostId == postId).ToList();
+            return PartialView(comments);
         }
     }
 }

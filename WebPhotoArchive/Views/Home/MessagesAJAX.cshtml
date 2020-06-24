@@ -4,7 +4,7 @@
     @foreach (var item in Model)
     {
         <strong>@Html.DisplayFor(modelItem => item.Name)</strong>
-        @Html.DisplayFor(modelItem => item.Text)
+        <span style="word-wrap:break-word;">@Html.DisplayFor(modelItem => item.Text)</span>
         <hr />
     }
 </div>

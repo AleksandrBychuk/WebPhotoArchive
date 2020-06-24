@@ -1,0 +1,12 @@
+﻿@model IEnumerable<WebPhotoArchive.Models.Comment>
+
+    <div id="resultAJAX">
+        @foreach (var item in Model)
+        {
+            <p>
+                <strong>@Html.ActionLink(item.NameComment, "UserProfile", "Home", new { Id = item.IdComment }, new { @style = "text-decoration: none; color: black;" })</strong>:
+                <span style="word-wrap:break-word;">@Html.DisplayFor(modelItem => item.Text)</span>
+            </p>
+            <hr />
+        }
+    </div>

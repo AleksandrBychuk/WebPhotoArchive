@@ -10,8 +10,8 @@ using WebPhotoArchive.Models;
 namespace WebPhotoArchive.Migrations
 {
     [DbContext(typeof(WebArchiveContext))]
-    [Migration("20200614135530_MigrationProject")]
-    partial class MigrationProject
+    [Migration("20200624001404_littlecorrect")]
+    partial class littlecorrect
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,6 +27,9 @@ namespace WebPhotoArchive.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("IdComment")
+                        .HasColumnType("integer");
 
                     b.Property<string>("NameComment")
                         .HasColumnType("varchar(250)");
