@@ -3,13 +3,23 @@
 <div class="row">
     <div class="col-md-3"></div>
     <div class="col-xs-12 col-md-6">
-        <div class="btn-group-vertical" role="group" aria-label="...">
+        @*<div class="btn-group-vertical" role="group" aria-label="...">
             @foreach (var item in Model)
             {
                 <a href="@Url.RouteUrl(new {controller = "Home", action = "Chat", FormMethod.Post, id = item.Id })" type="button" class="btn btn-default navbar-btn">
                     @Html.DisplayFor(modelItem => item.FromName)<br />
                     @Html.DisplayFor(modelItem => item.ToName)
                     @Html.DisplayFor(modelItem => item.LastMessage)
+                </a>
+            }
+        </div>*@
+        <div class="list-group">
+            @foreach (var item in Model)
+            {
+                <a href="@Url.RouteUrl(new {controller = "Home", action = "Chat", FormMethod.Post, id = item.Id })" type="button" class="list-group-item">
+                    <h4 style="color: black;">Диалог</h4>
+                    <p style="color: black;"><strong>От:</strong> <i>@Html.DisplayFor(modelItem => item.FromName)</i> <strong>Кому:</strong> @Html.DisplayFor(modelItem => item.ToName)</p>
+                    <h5 style="color: gray;">@Html.DisplayFor(modelItem => item.LastMessage) @Html.DisplayFor(modelItem => item.LastMessageTime)</h5>
                 </a>
             }
         </div>

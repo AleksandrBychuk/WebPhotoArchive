@@ -77,14 +77,22 @@ namespace WebPhotoArchive.Controllers
                     }
                 }
                 var num_posts = dbc.Posts.Where(u => u.UserDoId == id).Count();
-                var num_followers = dbc.Follows.Where(u => u.FollowingId == id).Count();//подпищики
                 var num_following = dbc.Follows.Where(u => u.FollowerId == id).Count();//подписки
+                var num_followers = dbc.Follows.Where(u => u.FollowingId == id).Count();//подпищики
                 var posts_n = dbc.Users.Where(u => u.Id == id).FirstOrDefault();
                 posts_n.Postnum = num_posts;
                 posts_n.Followers = num_followers;
                 posts_n.Following = num_following;
                 dbc.SaveChanges();
             }
+            var followers = db.Follows.Where(u => u.FollowingId == id).Select(f => f.FollowerId);//список ID подпищиков
+            var following = db.Follows.Where(u => u.FollowerId == id).Select(f => f.FollowingId);//список ID подписок
+            IQueryable<User> list_followers = null;
+            IQueryable<User> list_following = null;
+            list_followers = db.Users.Where(u => followers.Contains(u.Id));
+            list_following = db.Users.Where(u => following.Contains(u.Id));
+            ViewBag.Followers = list_followers;
+            ViewBag.Following = list_following;
             return View();
         }
 
@@ -220,7 +228,6 @@ namespace WebPhotoArchive.Controllers
             }
             else ViewBag.News = null;
             return PartialView();
-            //return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -300,6 +307,9 @@ namespace WebPhotoArchive.Controllers
             message.Name = User.Identity.Name;
             message.DialogId = dialogId;
             db.Messages.Add(message);
+            var last = db.Dialogs.Where(u => u.Id == dialogId).FirstOrDefault();
+            last.LastMessage = message.Text;
+            last.LastMessageTime = DateTime.Now;
             db.SaveChanges();
             var messages = db.Messages.Where(m => m.DialogId == dialogId).ToList();
             return PartialView(messages);

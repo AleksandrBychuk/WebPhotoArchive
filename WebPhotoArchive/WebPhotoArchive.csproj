@@ -274,6 +274,10 @@
     <Compile Include="Migrations\20200624001404_littlecorrect.designer.cs">
       <DependentUpon>20200624001404_littlecorrect.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20200624235221_dialog_correct.cs" />
+    <Compile Include="Migrations\20200624235221_dialog_correct.designer.cs">
+      <DependentUpon>20200624235221_dialog_correct.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\WebArchiveContextModelSnapshot.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Dialog.cs" />
