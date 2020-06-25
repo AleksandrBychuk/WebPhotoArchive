@@ -280,7 +280,7 @@ namespace WebPhotoArchive.Controllers
                 i = t;
             }
             #endregion
-            var dialog = db.Dialogs.Where(d => d.FromId == i || d.ToId == i).ToList();
+            var dialog = db.Dialogs.Where(d => d.FromId == i || d.ToId == i).OrderByDescending(d=>d.LastMessageTime).ToList();
             return View(dialog);
         }
 
